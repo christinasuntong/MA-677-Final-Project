@@ -1,0 +1,267 @@
+---
+title: "In All Likelihood"
+author: "Tong Sun"
+date: "4/24/2022"
+output: html_document
+---
+### Rain Data Analysis
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Load required packages
+library(readxl)
+library(fitdistrplus)
+library(logspline)
+library(dplyr)
+library(EnvStats)
+library(ExtDist)
+library(PerformanceAnalytics)
+```
+
+I find an approach of how to identify the distribution of data in R, so I will use it to illustrate this rain problem. A neat approach would involve using "fitdistrplus" package that provides tools for distribution fitting.Details will be shown below.
+
+```{r}
+# Read rain data
+rain <- read_excel("rain.xlsx")
+rain_1960 <- rain[,"1960"]
+rain_1960 <- na.omit(rain_1960)
+rain_1960 <- rain_1960[rain_1960$`1960` <= 1, ]
+df_1960 <- as.numeric(unlist(rain_1960))
+hist(df_1960)
+descdist(df_1960, boot = 1000)
+# beta distribution
+fit.beta <- fitdist(df_1960, "beta")
+summary(fit.beta)
+plot(fit.beta)
+
+# lognormal distribution -- not good
+fit.lnorm <- fitdist(df_1960, "lnorm")
+summary(fit.lnorm)
+plot(fit.lnorm)
+
+# normal distribution -- not good
+fit.norm <- fitdist(df_1960, "norm")
+summary(fit.norm)
+plot(fit.norm)
+
+# weibull distribution
+fit.weib <- fitdist(df_1960, "weibull")
+summary(fit.weib)
+plot(fit.weib)
+
+# MLE with beta distribution
+ebeta(df_1960, method = "mle")
+```
+From the Cullen and Frey graph, I attempt to fit different distributions. Finally I find the beta distribution fits the data best.Next I use "ebeta" to calculate the parameters with MLE. I got the results that the parameters of this beta distribution is "shape1=0.40" and "shape2=3.48".I also did the same thing on the following years' rain data belowed and I will only show the parameters of each distribution.
+
+```{r}
+##1961
+rain_1961 <- rain[,"1961"]
+rain_1961 <- na.omit(rain_1961)
+rain_1961 <- rain_1961[rain_1961$`1961` <= 1, ]
+df_1961 <- as.numeric(unlist(rain_1961))
+hist(df_1961)
+descdist(df_1961, boot = 1000)
+# beta distribution
+fit.beta.1961 <- fitdist(df_1961, "beta")
+summary(fit.beta.1961)
+plot(fit.beta.1961)
+
+# lognormal distribution -- not good
+fit.lnorm.1961 <- fitdist(df_1961, "lnorm")
+summary(fit.lnorm.1961)
+plot(fit.lnorm.1961)
+
+# normal distribution -- not good
+fit.norm.1961 <- fitdist(df_1961, "norm")
+summary(fit.norm.1961)
+plot(fit.norm.1961)
+
+# weibull distribution
+fit.weib.1961 <- fitdist(df_1961, "weibull")
+summary(fit.weib.1961)
+plot(fit.weib.1961)
+# MLE
+ebeta(df_1961, method = "mle")
+```
+The parameters of 1961 rain data are "shape1=0.57" and "shape2=2.37".
+```{r}
+#1962
+rain_1962 <- rain[,"1962"]
+rain_1962 <- na.omit(rain_1962)
+rain_1962 <- rain_1962[rain_1962$`1962` <= 1, ]
+df_1962 <- as.numeric(unlist(rain_1962))
+hist(df_1962)
+descdist(df_1962, boot = 1000)
+# beta distribution
+fit.beta.1962 <- fitdist(df_1962, "beta")
+summary(fit.beta.1962)
+plot(fit.beta.1962)
+
+# lognormal distribution -- not good
+fit.lnorm.1962 <- fitdist(df_1962, "lnorm")
+summary(fit.lnorm.1962)
+plot(fit.lnorm.1962)
+
+# normal distribution -- not good
+fit.norm.1962 <- fitdist(df_1962, "norm")
+summary(fit.norm.1962)
+plot(fit.norm.1962)
+
+# weibull distribution
+fit.weib.1962 <- fitdist(df_1962, "weibull")
+summary(fit.weib.1962)
+plot(fit.weib.1962)
+# MLE
+ebeta(df_1962, method = "mle")
+```
+
+The parameters of 1962 rain data are "shape1=0.40" and "shape2=2.36".
+
+```{r}
+#1963
+rain_1963 <- rain[,"1963"]
+rain_1963 <- na.omit(rain_1963)
+rain_1963 <- rain_1963[rain_1963$`1963` <= 1, ]
+df_1963 <- as.numeric(unlist(rain_1963))
+hist(df_1963)
+descdist(df_1963, boot = 1000)
+# beta distribution
+fit.beta.1963 <- fitdist(df_1963, "beta")
+summary(fit.beta.1963)
+plot(fit.beta.1963)
+
+# lognormal distribution -- not good
+fit.lnorm.1963 <- fitdist(df_1963, "lnorm")
+summary(fit.lnorm.1963)
+plot(fit.lnorm.1963)
+
+# normal distribution -- not good
+fit.norm.1963 <- fitdist(df_1963, "norm")
+summary(fit.norm.1963)
+plot(fit.norm.1963)
+
+# weibull distribution
+fit.weib.1963 <- fitdist(df_1963, "weibull")
+summary(fit.weib.1963)
+plot(fit.weib.1963)
+# MLE
+ebeta(df_1963, method = "mle")
+```
+
+The parameters of 1963 rain data are "shape1=0.50" and "shape2=2.27".
+```{r}
+#1964
+rain_1964 <- rain[,"1964"]
+rain_1964 <- na.omit(rain_1964)
+rain_1964 <- rain_1964[rain_1964$`1964` <= 1, ]
+df_1964 <- as.numeric(unlist(rain_1964))
+hist(df_1964)
+descdist(df_1964, boot = 1000)
+# beta distribution
+fit.beta.1964 <- fitdist(df_1964, "beta")
+summary(fit.beta.1964)
+plot(fit.beta.1964)
+
+# lognormal distribution -- not good
+fit.lnorm.1964 <- fitdist(df_1964, "lnorm")
+summary(fit.lnorm.1964)
+plot(fit.lnorm.1964)
+
+# normal distribution -- not good
+fit.norm.1964 <- fitdist(df_1964, "norm")
+summary(fit.norm.1964)
+plot(fit.norm.1964)
+
+# weibull distribution
+fit.weib.1964 <- fitdist(df_1964, "weibull")
+summary(fit.weib.1964)
+plot(fit.weib.1964)
+# MLE
+ebeta(df_1964, method = "mle")
+```
+The parameters of 1964 rain data are "shape1=0.40" and "shape2=1.93". For this analysis, I learned how to identify the distribution of data but I am still trying to learn how to bring all of the years into one model because I found there are different amounts of data sets for each year.So I will try to find a way to analyze it better and then find which year is wet or dry.
+
+### In All Likelihood
+## 4.25
+```{r}
+
+```
+
+
+## 4.27
+```{r}
+# Read the data
+jan <- c(0.15,0.25,0.10,0.20,1.85,1.97,0.80,0.20,0.10,0.50,0.82,0.40,1.80,0.20,1.12,1.83,0.45,3.17,0.89,0.31,0.59,0.10,0.10,0.90,0.10,0.25,0.10,0.90)
+jul <- c(0.30,0.22,0.10,0.12,0.20,0.10,0.10,0.10,0.10,0.10,0.10,0.17,0.20,2.80,0.85,0.10,0.10,1.23,0.45,0.30,0.20,1.20,0.10,0.15,0.10,0.20,0.10,0.20,0.35,0.62,0.20,1.22,0.30,0.80,0.15,1.53,0.10,0.20,0.30,0.40,0.23,0.20,0.10,0.10,0.60,0.20,0.50,0.15,0.60,0.30,0.80,1.10,0.20,0.10,0.10,0.10,0.42,0.85,1.60,0.10,0.25,0.10,0.20,0.10)
+```
+
+#(a)
+```{r}
+summary(jan)
+summary(jul)
+```
+
+Here I use summary function to see the descriped statistics of these two data sets. I found for both January and July data,the minimum values are the same -- 0.1. The median of January is 0.425 and the median of July is 0.2. The average of January is 0.7196 and that of July is 0.3931. And the maximum values of January and July are 3.17 and 2.8. Generally speaking, there is no much difference between these two data sets.
+
+#(b)
+```{r}
+#January
+qqnorm(jan, pch = 1, frame = FALSE)
+qqline(jan, col = "steelblue", lwd = 2)
+# July
+qqnorm(jul, pch = 1, frame = FALSE)
+qqline(jul, col = "steelblue", lwd = 2)
+```
+From the QQ-plots, I think these two data sets probably have a gamma distribution.
+
+#(c)
+```{r}
+# Fit data to a gamma distribution using mle
+fit.jan <- fitdist(jan, distr = "gamma", method = "mle")
+summary(fit.jan)
+
+fit.jul <- fitdist(jul, distr = "gamma", method = "mle")
+summary(fit.jul)
+```
+For the January data, the estimates of parameters are "shape=1.06" and "rate=1.47". The standard errors are 0.25 and 0.44. For the July data, the estimates of parameters are "shape=1.20" and "rate=3.04". The standard error are 0.19 and 0.59.
+
+#(d)
+```{r}
+# For January
+plot(fit.jan)
+# For July
+plot(fit.jul)
+```
+
+## 4.39
+When using R,we can make use of the boxcox function from the MASS package to estimate the transformation parameter by maximum likelihood estimation.This function will also give us the 95% confidence interval of the parameter.
+```{r}
+# Read the data
+weight <- c(0.4,1.0,1.9,3.0,5.5,8.1,12.1,25.6,50.0,56.0,70.0,115.0,115.0,119.5,154.5,157.0,175.0,179.0,180.0,406.0,419.0,423.0,440.0,655.0,680.0,1320.0,4603.0,5712.0)
+# Histogram of the data
+hist(weight)
+```
+
+In order to calculate the optimal lamdba I have to compute a linear model with the lm function and pass it to the boxcox function as follows.
+
+```{r}
+# Install package
+library(MASS)
+boxcox(lm(weight ~ 1))
+```
+
+Note that the center objective is 0.98 which represents the estimated parameter lambda and the others the 95% confidence interval of the estimation.As the previous shows that the 0 is inside the confidence interval of the optimal lambda and as the estimation of the parameter is really close to 0 in this question, the best option is to apply the logarithmic transformation of the data.
+
+```{r}
+# Transformed data
+new_weight <- log(weight)
+# Histogram
+hist(new_weight)
+```
+
+Now the data looks more like following a normal distribution, but I also use a statistical test to check it, as the Shapiro-Wilk test.
+```{r}
+shapiro.test(new_weight)
+```
+
+As the p-value is greater than the usual levels of significance (1%,5% and 10%) we have no evidence to reject the null hypothesis of normality.
