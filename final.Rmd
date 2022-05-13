@@ -184,6 +184,43 @@ ebeta(df_1964, method = "mle")
 The parameters of 1964 rain data are "shape1=0.40" and "shape2=1.93". For this analysis, I learned how to identify the distribution of data but I am still trying to learn how to bring all of the years into one model because I found there are different amounts of data sets for each year.So I will try to find a way to analyze it better and then find which year is wet or dry.
 
 ### In All Likelihood
+## 4.25
+```{r echo=FALSE}
+# PDF
+f <- function(x, a=0, b=1) dunif(x, min=a, max=b)
+# CDF
+F <- function(x, a=0, b=1) punif(x, min=a, max=b, lower.tail=FALSE)
+
+# Distribution of the order statistics
+order_statistics <- function(x,r,n) {
+  x * (1 - F(x))^(r-1) * F(x)^(n-r) * f(x)
+}
+
+# Expectation
+median_U <- function(r,n) {
+  (1/beta(r,n-r+1)) * integrate(order_statistics,-Inf,Inf, r, n)$value
+} 
+
+# Approximation function
+approxf <-function(k,n){
+  m <- (k-1/3)/(n+1/3)
+  return(m)
+}
+```
+
+```{r echo=FALSE}
+# n = 5
+median_U(2.5,5)
+approxf(2.5,5)
+```
+
+```{r echo=FALSE}
+#n = 10
+median_U(5,10)
+approxf(5,10)
+```
+
+
 ## 4.27
 ```{r echo=FALSE}
 # Read the data
